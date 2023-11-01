@@ -8,7 +8,6 @@ import entities.Pessoa;
 public class Main {
     public static void main(String[] args) {
 
-
         Pessoa noelTeste = new Noel("Vitor", "109.876.543-21", "biscoitos com leite", 6, 50);
 
 
