@@ -22,13 +22,13 @@ public class Main {
         Materias historiaEstela = new Materias("Historia", 8.5, 6.0, 7.0);
         Materias matematicaEstela = new Materias("Geografia", 10.0, 8.0, 5.0);
 
-        testeMeninoBom.adicionarBoasAcoes(acao1);
-        testeMeninoBom.adicionarBoasAcoes(acao2);
-        testeMeninoBom.adicionarBoasAcoes(acao3);
+        ((BonsMeninos) testeMeninoBom).adicionarBoasAcoes(acao1);
+        ((BonsMeninos) testeMeninoBom).adicionarBoasAcoes(acao2);
+        ((BonsMeninos) testeMeninoBom).adicionarBoasAcoes(acao3);
 
-        testeMeninoBom.adicionarNotas(geografiaEstela);
-        testeMeninoBom.adicionarNotas(historiaEstela);
-        testeMeninoBom.adicionarNotas(matematicaEstela);
+        ((BonsMeninos) testeMeninoBom).adicionarNotas(geografiaEstela);
+        ((BonsMeninos) testeMeninoBom).adicionarNotas(historiaEstela);
+        ((BonsMeninos) testeMeninoBom).adicionarNotas(matematicaEstela);
 
 
 
