@@ -12,6 +12,30 @@ public class BonsMeninos extends Pessoa {
         super(name, cpf, senha);
     }
 
+
+    public void adicionarBoasAcoes(String acoes) {
+        boasAcoes.add(acoes);
+    }
+
+    public void removerBoasAcoes(String acoes) {
+        for (int i = 0; i < boasAcoes.size(); i++) {
+            if (boasAcoes.get(i).equalsIgnoreCase(acoes)) {
+                boasAcoes.remove(acoes);
+            }
+        }
+    }
+
+    public void adicionarNotas(Materias materia) {
+        notas.add(materia);
+    }
+
+    public void removerNotas(Materias materia) {
+        for (int i = 0; i < notas.size(); i++) {
+            if (notas.get(i).getName().equalsIgnoreCase(materia.getName())) {
+                notas.remove(materia);
+            }
+        }
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
