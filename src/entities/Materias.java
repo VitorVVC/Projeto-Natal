@@ -1,38 +1,44 @@
 package entities;
 
-import java.util.InputMismatchException;
+import entitiesEnum.MateriasEnum;
+import entitiesEnum.Status;
 
 import static entities.Pessoa.validarDouble;
 
 public class Materias {
 
-    private String name;
+    private MateriasEnum materias;
     private double av1;
     private double av2;
     private double av3;
 
-    public Materias(String name, double av1, double av2, double av3) {
-        this.name = name;
+    private Status status;
+
+    public Materias(MateriasEnum materias, double av1, double av2, double av3) {
+        this.materias = materias;
         this.av1 = validarDouble(av1);
         this.av2 = validarDouble(av2);
         if (podeIrParaAv3(av1, av2)) {
             this.av3 = validarDouble(av3);
+            this.status = Status.APROVADO;
+        } else {
+            this.status = Status.REPROVADO;
         }
     }
 
-    private boolean podeIrParaAv3(double av1, double av2) {
+    public boolean podeIrParaAv3(double av1, double av2) {
         if ((av1 + av2) / 2 < 7.0) {
             return false;
         }
         return true;
     }
 
-    public String getName() {
-        return name;
+    public MateriasEnum getMaterias() {
+        return materias;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMaterias(MateriasEnum materias) {
+        this.materias = materias;
     }
 
     public double getAv1() {
@@ -57,5 +63,13 @@ public class Materias {
 
     public void setAv3(double av3) {
         this.av3 = av3;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }
