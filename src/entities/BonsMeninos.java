@@ -4,22 +4,22 @@ import java.util.ArrayList;
 
 public class BonsMeninos extends Pessoa {
 
-    static ArrayList<String> boasAcoes = new ArrayList<>();
+    ArrayList<Acoes> boasAcoes = new ArrayList<>();
 
-    static ArrayList<Materias> notas = new ArrayList<>();
+    ArrayList<Materias> notas = new ArrayList<>();
 
     public BonsMeninos(String name, String cpf, String senha) {
         super(name, cpf, senha);
     }
 
 
-    public void adicionarBoasAcoes(String acoes) {
+    public void adicionarBoasAcoes(Acoes acoes) {
         boasAcoes.add(acoes);
     }
 
-    public void removerBoasAcoes(String acoes) {
+    public void removerBoasAcoes(Acoes acoes) {
         for (int i = 0; i < boasAcoes.size(); i++) {
-            if (boasAcoes.get(i).equalsIgnoreCase(acoes)) {
+            if (boasAcoes.get(i).getAcao().equalsIgnoreCase(acoes.getAcao())) {
                 boasAcoes.remove(acoes);
             }
         }
@@ -31,7 +31,7 @@ public class BonsMeninos extends Pessoa {
 
     public void removerNotas(Materias materia) {
         for (int i = 0; i < notas.size(); i++) {
-            if (notas.get(i).getName().equalsIgnoreCase(materia.getName())) {
+            if (notas.get(i).getMaterias().equals(materia.getMaterias())) {
                 notas.remove(materia);
             }
         }
@@ -42,13 +42,28 @@ public class BonsMeninos extends Pessoa {
         sb.append("Parabéns ");
         sb.append(getName());
         sb.append("!! Você foi uma criancinha fantástica este ano e para comprovar isso olhe suas notas: \n");
-        for (int i = 0; i < notas.size(); i++) {
-            sb.append("=======================\n");
-            sb.append("Matéria: " + notas.get(i).getName() + "\n");
-            sb.append("Primeira Nota: " + notas.get(i).getAv1() + "\n");
-            sb.append("Segunda Nota: " + notas.get(i).getAv2() + "\n");
-            sb.append("Terceira Nota: " + notas.get(i).getAv3() + "\n");
-            sb.append("=======================\n");
+        for (int j = 0; j < notas.size(); j++) {
+            double tempAV1 = notas.get(j).getAv1();
+            double tempAV2 = notas.get(j).getAv1();
+            if (notas.get(j).podeIrParaAv3(tempAV1, tempAV2)) {
+                sb.append("Que incrivel observe suas otimas notas em " + notas.get(j).getMaterias() + "\n");
+                sb.append("=======================\n");
+                sb.append("Matéria: " + notas.get(j).getMaterias() + "\n");
+                sb.append("Primeira Nota: " + notas.get(j).getAv1() + "\n");
+                sb.append("Segunda Nota: " + notas.get(j).getAv2() + "\n");
+                sb.append("Terceira Nota: " + notas.get(j).getAv3() + "\n");
+                sb.append("Status Para Ultima: " + notas.get(j).getStatus() + "\n");
+                sb.append("=======================\n");
+            } else {
+                sb.append("Um dos motivos para ter sido classificada como uma criança má foi suas notas em " + notas.get(j).getMaterias() + "...\n");
+                sb.append("=======================\n");
+                sb.append("Matéria: " + notas.get(j).getMaterias() + "\n");
+                sb.append("Primeira Nota: " + notas.get(j).getAv1() + "\n");
+                sb.append("Segunda Nota: " + notas.get(j).getAv2() + "\n");
+                sb.append("Terceira Nota: " + notas.get(j).getAv3() + "\n");
+                sb.append("Status Para Ultima: " + notas.get(j).getStatus() + "\n");
+                sb.append("=======================\n");
+            }
         }
         return sb.toString();
     }
