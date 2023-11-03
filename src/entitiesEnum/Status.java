@@ -1,2 +1,6 @@
-package entitiesEnum;public enum Status {
+package entitiesEnum;
+
+public enum Status {
+
+    REPROVADO, APROVADO;
 }
