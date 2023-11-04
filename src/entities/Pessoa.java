@@ -7,18 +7,22 @@ import static entities.BonsMeninos.*;
 public abstract class Pessoa {
 
     protected String name;
+
+    protected String email;
     protected String cpf;
     protected String senha;
 
     protected ArrayList<String> presentes = new ArrayList<>();
 
-    public Pessoa(String name, String cpf, String senha) {
+    public Pessoa(String name, String email, String cpf, String senha) {
         this.name = name;
+        this.email = email;
         this.cpf = cpf;
         this.senha = senha;
     }
 
     public abstract String toString();
+
     public void adicionarPresentes(String presente) {
         presentes.add(presente);
     }
@@ -48,6 +52,18 @@ public abstract class Pessoa {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPresentes(ArrayList<String> presentes) {
+        this.presentes = presentes;
     }
 
     public String getCpf() {
