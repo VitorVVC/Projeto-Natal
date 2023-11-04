@@ -13,8 +13,8 @@ public class Noel extends Pessoa {
     ArrayList<Pessoa> mausMeninos = new ArrayList<>();
 
 
-    public Noel(String name, String cpf, String senha, int quantidadeDeRenas, double tamanhoBarba) {
-        super(name, cpf, senha);
+    public Noel(String name, String email, String cpf, String senha, int quantidadeDeRenas, double tamanhoBarba) {
+        super(name, email, cpf, senha);
         this.quantidadeDeRenas = confereRenas(quantidadeDeRenas);
         this.tamanhoBarba = confereBarba(tamanhoBarba);
     }
@@ -51,7 +51,7 @@ public class Noel extends Pessoa {
 
     @Override
     public String toString() {
-        return String.format("O papai noel chama-se: %s%nPossue em seu treno %d renas para leva-lo ao mundo inteiro%nE também possue incriveis %.2f centimetros de barba !!",getName(),quantidadeDeRenas,tamanhoBarba);
+        return String.format("O papai noel chama-se: %s%nPossue em seu treno %d renas para leva-lo ao mundo inteiro%nE também possue incriveis %.2f centimetros de barba !!", getName(), quantidadeDeRenas, tamanhoBarba);
     }
 
 
