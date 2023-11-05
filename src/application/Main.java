@@ -7,11 +7,11 @@ public class Main {
     public static void main(String[] args) {
 
         // Criando um teste de papai noel.
-        Pessoa noelTeste = new Noel("Vitor", "109.876.543-21", "biscoitos com leite", 6, 50);
+        Pessoa noelTeste = new Noel("Vitor", "vitorvvc2005@gmail.com", "109.876.543-21", "biscoitos com leite", 6, 50);
 
 
         // Criando um teste de bom menino.
-        Pessoa testeMeninoBom = new BonsMeninos("Estela", "123.456.789-10", "amo meu irmão");
+        Pessoa testeMeninoBom = new BonsMeninos("Estela", "estelaAmaOVitor@gmail.com", "123.456.789-10", "amo meu irmão");
 
         Acoes acao1 = new Acoes("Dei um PS5 para o meu irmão lindo");
         Acoes acao2 = new Acoes("Dei um MAC Mini para meu irmão lindo");
@@ -30,7 +30,7 @@ public class Main {
         ((BonsMeninos) testeMeninoBom).adicionarNotas(matematicaEstela);
 
         // Criando um teste de mau menino.
-        Pessoa testeMauMenino = new MausMeninos("Estela", "123.456.789-10", "odeio meu irmão");
+        Pessoa testeMauMenino = new MausMeninos("Estela", "estelinha@gmail.com", "123.456.789-10", "odeio meu irmão");
 
         Acoes acoes01 = new Acoes("Não dei um PS5 para meu irmão lindo");
         Acoes acoes02 = new Acoes("Não dei um MAC Mini para meu irmão lindo");
@@ -49,10 +49,9 @@ public class Main {
         ((MausMeninos) testeMauMenino).adicionarNotas(redacaoEstela);
 
 
-
-        //System.out.println(noelTeste);
-        //System.out.println(testeMeninoBom);
-        System.out.println(testeMauMenino);
+        // System.out.println(noelTeste);
+        // System.out.println(testeMeninoBom);
+        // System.out.println(testeMauMenino);
 
 
     }
