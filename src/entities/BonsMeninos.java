@@ -8,8 +8,8 @@ public class BonsMeninos extends Pessoa {
 
     ArrayList<Materias> notas = new ArrayList<>();
 
-    public BonsMeninos(String name, String cpf, String senha) {
-        super(name, cpf, senha);
+    public BonsMeninos(String name, String email, String cpf, String senha) {
+        super(name, email, cpf, senha);
     }
 
 
@@ -36,6 +36,7 @@ public class BonsMeninos extends Pessoa {
             }
         }
     }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

@@ -9,8 +9,8 @@ public class MausMeninos extends Pessoa {
 
     ArrayList<Materias> notas = new ArrayList<>();
 
-    public MausMeninos(String name, String cpf, String senha) {
-        super(name, cpf, senha);
+    public MausMeninos(String name, String email, String cpf, String senha) {
+        super(name, email, cpf, senha);
     }
 
 
