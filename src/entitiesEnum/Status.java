@@ -1,6 +1,6 @@
 package entitiesEnum;
 
 public enum Status {
-
-    REPROVADO, APROVADO;
+    // Classe enum Status com enumerações de - Aprovado, recuperação ou reprovado.
+    RECUPERACAO, REPROVADO, APROVADO;
 }
