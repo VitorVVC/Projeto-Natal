@@ -75,6 +75,7 @@ public class Noel extends Pessoa {
     // Método para printas informações relevantes do noel
     @Override
     public String toString() {
+        System.out.println("===========================================");
         return String.format("O papai noel chama-se: %s%nPossue em seu treno %d renas para leva-lo ao mundo inteiro%nE também possue incriveis %.2f centimetros de barba !!", getName(), quantidadeDeRenas, tamanhoBarba);
     }
 
