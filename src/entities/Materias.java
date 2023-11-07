@@ -4,6 +4,7 @@ import entitiesEnum.Etapa;
 import entitiesEnum.MateriasEnum;
 import entitiesEnum.Status;
 
+import static application.Util.sc;
 import static entities.Pessoa.validarDouble;
 
 public class Materias {
@@ -21,22 +22,58 @@ public class Materias {
     private Status status;
 
     // Construtor que recebe uma materia e suas notas do semestre
-    public Materias(MateriasEnum materias, double parcial, double global) {
+    public Materias(MateriasEnum materias, Etapa etapa, double parcial, double global) {
         this.materias = materias;
-        // Valida as duas primeiras notas
         this.parcial = validarDouble(parcial);
         this.global = validarDouble(global);
-        // Se for possivel continuar o percusso pelo colégio ele está "aprovado"
-        if (podeIrParaAv3(parcial, global)) {
-            this.status = Status.APROVADO;
-        } else {
-            // Se não está em uma breve recuperacao, sujeito a um teste para repor sua menor nota pela nova nota "avfinal"
-            this.status = Status.RECUPERACAO;
-        }
+        this.etapa = etapa;
     }
     // Método para substituir uma nota caso a mesma seja abaixo de 7 - No colegio onde minha irmã estuda existe o calculo para saber se sua
     // nota na matéria é o bastante para passar. Aqui vai a sua formula ( E = Etapa ) - Nota da E = Parcial + Global
     // ( 1xE1 + 2xE2 + 3xE3 + 4xE4 ) / 10 > 7 == Aprovado; Se a condicao anterior for "false" é recuperação
+
+    public double calculaFinal(Materias materia) {
+        Double mediaFinal = null;
+
+        Double resultadoEtapaUM = null;
+        Double resultadoEtapaDOIS = null;
+        Double resultadoEtapaTRES = null;
+        Double resultadoEtapaQUATRO = null;
+
+        if (materia.getEtapa().equals("PRIMEIRA")) {
+            resultadoEtapaUM = (materia.getParcial() + materia.getGlobal()) * 1;
+        } else if (materia.getEtapa().equals("SEGUNDA")) {
+            resultadoEtapaDOIS = (materia.getParcial() + materia.getGlobal()) * 2;
+        } else if (materia.getEtapa().equals("TERCEIRA")) {
+            resultadoEtapaTRES = (materia.getParcial() + materia.getGlobal()) * 3;
+        } else if (materia.getEtapa().equals("QUARTA")) {
+            resultadoEtapaQUATRO = (materia.getParcial() + materia.getGlobal()) * 4;
+        }
+        mediaFinal = (resultadoEtapaUM + resultadoEtapaDOIS + resultadoEtapaTRES + resultadoEtapaQUATRO) / 10;
+        try {
+            if (mediaFinal >= 7) {
+                this.status = Status.APROVADO;
+            } else if (mediaFinal > 0 && mediaFinal < 7) {
+                this.status = Status.RECUPERACAO;
+                repondoNota(materia);
+            }
+        } catch (Exception exception) {
+            System.out.println("ERROR: " + exception.getMessage());
+        }
+
+        return mediaFinal;
+    }
+
+    public void repondoNota(Materias materias) {
+        if (status.equals("RECUPERACAO")) {
+            if ((materias.getParcial() + materias.getGlobal()) / 2 < 7) {
+                System.out.println("Você tera de repor a sua média na materia" + materias.getMaterias() + ", por favor a seguir informe qual a sua nota final após refazer os testes: ");
+                System.out.println("Nota: ");
+                Double novaMedia = validarDouble(sc.nextDouble());
+            }
+        }
+
+    }
 
 
     // Calculo de sim ou não para retornar se o aluno esta apto para ir ou não à prova final
