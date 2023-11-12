@@ -4,6 +4,7 @@ import entities.*;
 import entitiesEnum.Etapa;
 import entitiesEnum.MateriasEnum;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Util {
@@ -68,7 +69,6 @@ public class Util {
 
     public static void testeInterativo() {
         Noel papaiNoel = new Noel("São Nicolau", "papainoel@northpole.com", "969.300.800-25", "biscoitoComLeite", 8, 60.0);
-        String resposta;
 
         System.out.println("===========================================");
         System.out.println("Olá querido usuário, me chamo São Nicolau.");
@@ -76,6 +76,7 @@ public class Util {
         System.out.println("===========================================");
         System.out.println("Se você está lendo estas mensagens você deve ser muito especial, pois este é meu aplicativo em fase de testes.");
         System.out.println("Quer saber umas curiosidades sobre mim? Hohohohoho");
+        String resposta;
 
         do {
             resposta = sc.nextLine();
@@ -95,6 +96,41 @@ public class Util {
         System.out.println("Pois bem meu jovem, você poderia fornecer-me seu nome?");
         System.out.print("Nome: ");
         String nome = sc.nextLine();
+        System.out.print("É um prazer te conhecer " + nome + " você se comportou bem esse ano (Sim OU Não): ");
+        String sOuN;
+        ArrayList<Acoes> acoesBoas = new ArrayList<>();
+        ArrayList<Acoes> acoesRuins = new ArrayList<>();
+        do {
+            sOuN = sc.nextLine();
+            if (sOuN.equalsIgnoreCase("sim")) {
+                System.out.println("Já que você se considera uma boa criança por favor liste para mim duas ações favoritas este ano");
+                System.out.print("Ação UM: ");
+                Acoes acaoUm = new Acoes(sc.nextLine());
+                System.out.print("Ação DOIS: ");
+                Acoes acaoDois = new Acoes(sc.nextLine());
+                acoesBoas.add(acaoUm);
+                acoesBoas.add(acaoDois);
+                System.out.printf("Que bacana %s, vamos seguir com mais dois pedidos ok ?%n Escreva para o papai noel suas duas matérias prediletas, as etapas em que elas foram mais incrives e claro as suas notas nelas, se forem incriveis mesmo você pode ganhar um presente extra%n", nome);
+                System.out.print("Nome da matéria: ");
+                try {
+                    MateriasEnum materiaUm = MateriasEnum.valueOf(sc.nextLine().toUpperCase());
+                } catch (Exception exception) {
+                    System.out.println("Erro na leitura da matéria: "+ exception.getMessage());
+                }
+                System.out.print("Etapa favorita da materia (Primeira,Segunda..):");
+
+                System.out.println("Nossa.. que incrivel! Realmente você foi fantástico esse ano.Pois bem vamos seguir adiante em nosso bate-papo");
+            } else if (sOuN.equalsIgnoreCase("não")) {
+                System.out.println("Poxa que pena que você não foi muito bem esse ano, mas ei não se desanime ok? Proximo ano você pode tentar novamente");
+                System.out.println("Porém você reconhecer isso é uma ótima atitude, meus sinceros parabéns!");
+                System.out.println("Agora por favor, me liste duas de suas más ações");
+                System.out.print("Ação UM: ");
+                String acaoUM = sc.nextLine();
+                System.out.print("Ação DOIS: ");
+                String acaoDOIS = sc.nextLine();
+
+            }
+        } while (!sOuN.equalsIgnoreCase("sim") && !sOuN.equalsIgnoreCase("não"));
     }
 
 
