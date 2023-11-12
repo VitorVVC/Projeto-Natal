@@ -1,9 +1,14 @@
 package application;
 
+import com.sun.jdi.event.ExceptionEvent;
 import entities.*;
 import entitiesEnum.Etapa;
 import entitiesEnum.MateriasEnum;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,6 +16,14 @@ public class Util {
     // Clase destinada a aplicar métodos extensos que desejo usar na Main porém para "encutar" eu posso faze-la aqui
     // Servindo assim como uma classe suporte para principal
     public static Scanner sc = new Scanner(System.in);
+    public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("'Data: 'dd/MM/yyyy 'Hora: 'HH:mm:ss");
+
+    public static Double validarDouble(Double valor) {
+        if (valor < 0) {
+            throw new IllegalArgumentException("Não aceitamos valor negativo nesta entrada");
+        }
+        return valor;
+    }
 
     public static void teste() {
 
@@ -69,6 +82,9 @@ public class Util {
 
     public static void testeInterativo() {
         Noel papaiNoel = new Noel("São Nicolau", "papainoel@northpole.com", "969.300.800-25", "biscoitoComLeite", 8, 60.0);
+        LocalDateTime agora = ZonedDateTime.now(ZoneOffset.UTC).toLocalDateTime();
+        ZonedDateTime poloNorteZonedDateTime = ZonedDateTime.of(agora, ZoneOffset.UTC);
+        LocalDateTime poloNorte = poloNorteZonedDateTime.toLocalDateTime();
 
         System.out.println("===========================================");
         System.out.println("Olá querido usuário, me chamo São Nicolau.");
@@ -76,32 +92,40 @@ public class Util {
         System.out.println("===========================================");
         System.out.println("Se você está lendo estas mensagens você deve ser muito especial, pois este é meu aplicativo em fase de testes.");
         System.out.println("Quer saber umas curiosidades sobre mim? Hohohohoho");
+        // Para o primeiro if, na questão se a criança gostaria ou não de saber curiosidades sobre o papai noel
         String resposta;
+        // Variaveis para quando formos pedir informações que formam uma boa ou má criança
+        String sOuN;
+        ArrayList<Acoes> acoesBoas = new ArrayList<>();
+        ArrayList<Acoes> acoesRuins = new ArrayList<>();
+        MateriasEnum materiaUm = null;
+        Double parcial = null;
+        Double global = null;
 
         do {
             resposta = sc.nextLine();
 
             if (resposta.equalsIgnoreCase("sim")) {
                 System.out.println(papaiNoel);
+                System.out.println("E agora no polo norte são exatamente: " + formatter.format(poloNorte));
                 System.out.println("Legal não é mesmo?! Hohohoho");
                 System.out.println("Pois agora vamos prosseguir.");
             } else if (resposta.equalsIgnoreCase("não")) {
-                System.out.println("Tudo bem meu jovem, vamos prosseguir então.");
+                System.out.println("Tudo bem, vamos prosseguir então.");
             } else {
                 System.out.println("Não entendi qual foi sua resposta, poderia repetir por favor?");
                 System.out.print("Lembre-se que o Noel aqui tá caduco, só entendo Sim ou Não: ");
             }
         } while (!resposta.equalsIgnoreCase("sim") && !resposta.equalsIgnoreCase("não"));
 
+        System.out.println("===========================================");
         System.out.println("Pois bem meu jovem, você poderia fornecer-me seu nome?");
         System.out.print("Nome: ");
         String nome = sc.nextLine();
         System.out.print("É um prazer te conhecer " + nome + " você se comportou bem esse ano (Sim OU Não): ");
-        String sOuN;
-        ArrayList<Acoes> acoesBoas = new ArrayList<>();
-        ArrayList<Acoes> acoesRuins = new ArrayList<>();
         do {
             sOuN = sc.nextLine();
+            System.out.println("===========================================");
             if (sOuN.equalsIgnoreCase("sim")) {
                 System.out.println("Já que você se considera uma boa criança por favor liste para mim duas ações favoritas este ano");
                 System.out.print("Ação UM: ");
@@ -110,16 +134,41 @@ public class Util {
                 Acoes acaoDois = new Acoes(sc.nextLine());
                 acoesBoas.add(acaoUm);
                 acoesBoas.add(acaoDois);
-                System.out.printf("Que bacana %s, vamos seguir com mais dois pedidos ok ?%n Escreva para o papai noel suas duas matérias prediletas, as etapas em que elas foram mais incrives e claro as suas notas nelas, se forem incriveis mesmo você pode ganhar um presente extra%n", nome);
+                System.out.println("===========================================");
+                System.out.printf("Que bacana %s, vamos seguir com o ultimo pedido so pra garantir que você foi mesmo uma ótima criança ok ?%nEscreva para o papai noel os seguintes pedidos: %nSuas duas matérias prediletas%nAs etapas em que elas foram mais divertidas%nE claro as suas notas nelas%nSe forem incriveis mesmo você pode ganhar um presente extra%n", nome);
+                System.out.println("===========================================");
                 System.out.print("Nome da matéria: ");
                 try {
-                    MateriasEnum materiaUm = MateriasEnum.valueOf(sc.nextLine().toUpperCase());
+                    materiaUm = MateriasEnum.valueOf(sc.nextLine().toUpperCase());
                 } catch (Exception exception) {
-                    System.out.println("Erro na leitura da matéria: "+ exception.getMessage());
+                    throw new RuntimeException("Não foi possivel identificar a materia em questão: " + exception.getMessage());
                 }
-                System.out.print("Etapa favorita da materia (Primeira,Segunda..):");
-
+                System.out.print("Etapa favorita da materia (Primeira,Segunda..): ");
+                try {
+                    Etapa etapa = Etapa.valueOf(sc.nextLine().toUpperCase());
+                } catch (Exception exception) {
+                    throw new RuntimeException("Erro na leitura da etapa: " + exception.getMessage());
+                }
+                System.out.printf("Ótimo %s vamos seguir adiante%n", nome);
+                System.out.println("Informe a sua nota parcial de " + materiaUm);
+                System.out.print("Nota parcial: ");
+                try {
+                    // Ele converte oque for escrito para um Double, primeira vez utilizando tal método por isso julgo este comentário como essencial
+                    parcial = validarDouble(Double.parseDouble(sc.nextLine()));
+                } catch (Exception exception) {
+                    throw new RuntimeException("Erro na leitura da nota parcial: " + exception.getMessage());
+                }
+                System.out.println("Informe a sua nota global de " + materiaUm);
+                System.out.print("Nota global: ");
+                sc.nextLine();
+                try {
+                    global = validarDouble(Double.parseDouble(sc.nextLine()));
+                } catch (Exception exception) {
+                    throw new RuntimeException("Erro na leitura da nota parcial: " + exception.getMessage());
+                }
+                // Adicionar mais métodos
                 System.out.println("Nossa.. que incrivel! Realmente você foi fantástico esse ano.Pois bem vamos seguir adiante em nosso bate-papo");
+                break;
             } else if (sOuN.equalsIgnoreCase("não")) {
                 System.out.println("Poxa que pena que você não foi muito bem esse ano, mas ei não se desanime ok? Proximo ano você pode tentar novamente");
                 System.out.println("Porém você reconhecer isso é uma ótima atitude, meus sinceros parabéns!");
@@ -129,6 +178,8 @@ public class Util {
                 System.out.print("Ação DOIS: ");
                 String acaoDOIS = sc.nextLine();
 
+            } else {
+                System.out.print("Tente novamente (Sim ou Não): ");
             }
         } while (!sOuN.equalsIgnoreCase("sim") && !sOuN.equalsIgnoreCase("não"));
     }
