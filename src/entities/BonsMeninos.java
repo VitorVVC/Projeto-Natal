@@ -49,7 +49,7 @@ public class BonsMeninos extends Pessoa {
             double tempAV2 = notas.get(j).getParcial();
             if (notas.get(j).podeIrParaAv3(tempAV1, tempAV2)) {
                 sb.append("Que incrivel observe suas otimas notas em " + notas.get(j).getMaterias() + "\n");
-                sb.append("=======================\n");
+                sb.append("============= ==========\n");
                 sb.append("Matéria: " + notas.get(j).getMaterias() + "\n");
                 sb.append("Nota Parcial: " + notas.get(j).getParcial() + "\n");
                 sb.append("Nota Global: " + notas.get(j).getGlobal() + "\n");
