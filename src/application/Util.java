@@ -10,6 +10,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Util {
@@ -95,12 +96,10 @@ public class Util {
         // Para o primeiro if, na questão se a criança gostaria ou não de saber curiosidades sobre o papai noel
         String resposta;
         // Variaveis para quando formos pedir informações que formam uma boa ou má criança
-        String sOuN;
-        ArrayList<Acoes> acoesBoas = new ArrayList<>();
-        ArrayList<Acoes> acoesRuins = new ArrayList<>();
-        MateriasEnum materiaUm = null;
-        Double parcial = null;
-        Double global = null;
+        String sOuN; // Armazenar respostas
+        ArrayList<Acoes> acoesBoas = new ArrayList<>(); // Armazenar boas acoes
+        ArrayList<Acoes> acoesRuins = new ArrayList<>(); // Armazenarc más acoes
+        ArrayList<Materias> listMaterias = new ArrayList<>(); // Armazenar materias
 
         do {
             resposta = sc.nextLine();
@@ -137,6 +136,48 @@ public class Util {
                 System.out.println("===========================================");
                 System.out.printf("Que bacana %s, vamos seguir com o ultimo pedido so pra garantir que você foi mesmo uma ótima criança ok ?%nEscreva para o papai noel os seguintes pedidos: %nSuas duas matérias prediletas%nAs etapas em que elas foram mais divertidas%nE claro as suas notas nelas%nSe forem incriveis mesmo você pode ganhar um presente extra%n", nome);
                 System.out.println("===========================================");
+                // Pedir a primeira mateira
+                pedindoMateria(nome, 1, listMaterias);
+                // Pedir a segunda materia
+                pedindoMateria(nome, 2, listMaterias);
+
+                System.out.println("Nossa.. que incrivel! Realmente você foi fantástico(a) esse ano.Pois bem vamos seguir adiante em nosso bate-papo");
+                break;
+                // Para maus meninos
+            } else if (sOuN.equalsIgnoreCase("não")) {
+                System.out.println("Poxa que pena que você não foi muito bem esse ano, mas ei não se desanime ok? Proximo ano você pode tentar novamente");
+                System.out.println("Porém você reconhecer isso é uma ótima atitude, meus sinceros parabéns!");
+                System.out.println("Agora por favor, me liste duas de suas más ações");
+                System.out.print("Ação UM: ");
+                Acoes acaoUm = new Acoes(sc.nextLine());
+                System.out.print("Ação DOIS: ");
+                Acoes acaoDois = new Acoes(sc.nextLine());
+                acoesBoas.add(acaoUm);
+                acoesBoas.add(acaoDois);
+                System.out.println("===========================================");
+                System.out.printf("Que bacana %s, vamos seguir com o ultimo pedido para quando você for uma boa criança lembrar deste mmomento feliz,ok?%nEscreva para o papai noel os seguintes pedidos: %nSuas duas matérias prediletas%nAs etapas em que elas foram mais divertidas%nE claro as suas notas nelas%n", nome);
+                System.out.println("===========================================");
+
+
+            } else {
+                System.out.print("Tente novamente (Sim ou Não): ");
+            }
+        } while (!sOuN.equalsIgnoreCase("sim") && !sOuN.equalsIgnoreCase("não"));
+    }
+
+    // Método para pedir as matérias
+    // Pede o nome do usuário pois precisamos saber desse dado para exibir em alguns métodos
+    // Pede materia pois existem materia um ou dois então criamos mensagens personalizadas para ambas resposta e fazemos um tratamento de excessão para caso não seja uma dessas variaveis
+    // Lista de materias do progama para podermos ir adicionando as materias
+    public static void pedindoMateria(String nome, int materia, ArrayList<Materias> listMaterias) {
+        try {
+            if (materia == 1) {
+                // Variaveis para matéria UM
+                MateriasEnum materiaUm = null;
+                Double parcialUm = null;
+                Double globalUm = null;
+                Etapa etapaUm = null;
+
                 System.out.print("Nome da matéria: ");
                 try {
                     materiaUm = MateriasEnum.valueOf(sc.nextLine().toUpperCase());
@@ -145,7 +186,7 @@ public class Util {
                 }
                 System.out.print("Etapa favorita da materia (Primeira,Segunda..): ");
                 try {
-                    Etapa etapa = Etapa.valueOf(sc.nextLine().toUpperCase());
+                    etapaUm = Etapa.valueOf(sc.nextLine().toUpperCase());
                 } catch (Exception exception) {
                     throw new RuntimeException("Erro na leitura da etapa: " + exception.getMessage());
                 }
@@ -154,34 +195,67 @@ public class Util {
                 System.out.print("Nota parcial: ");
                 try {
                     // Ele converte oque for escrito para um Double, primeira vez utilizando tal método por isso julgo este comentário como essencial
-                    parcial = validarDouble(Double.parseDouble(sc.nextLine()));
+                    parcialUm = validarDouble(Double.parseDouble(sc.nextLine()));
                 } catch (Exception exception) {
                     throw new RuntimeException("Erro na leitura da nota parcial: " + exception.getMessage());
                 }
                 System.out.println("Informe a sua nota global de " + materiaUm);
                 System.out.print("Nota global: ");
-                sc.nextLine();
                 try {
-                    global = validarDouble(Double.parseDouble(sc.nextLine()));
+                    globalUm = validarDouble(Double.parseDouble(sc.nextLine()));
+                } catch (Exception exception) {
+                    throw new RuntimeException("Erro na leitura da nota parcial: " + exception.getMessage());
+                } finally {
+                    System.out.println("Fim do pedido de nota UM...");
+                }
+                Materias materiasUm = new Materias(materiaUm, etapaUm, parcialUm, globalUm);
+                listMaterias.add(materiasUm);
+            } else if (materia == 2) {
+                // Variaveis para matéria DOIS
+                MateriasEnum materiaDois = null;
+                Double parcialDois = null;
+                Double globalDois = null;
+                Etapa etapaDois = null;
+
+
+                System.out.print("Nome da matéria: ");
+                try {
+                    materiaDois = MateriasEnum.valueOf(sc.nextLine().toUpperCase());
+                } catch (Exception exception) {
+                    throw new RuntimeException("Não foi possivel identificar a materia em questão: " + exception.getMessage());
+                }
+                System.out.print("Etapa favorita da materia (Primeira,Segunda..): ");
+                try {
+                    etapaDois = Etapa.valueOf(sc.nextLine().toUpperCase());
+                } catch (Exception exception) {
+                    throw new RuntimeException("Erro na leitura da etapa: " + exception.getMessage());
+                }
+                System.out.printf("Ótimo %s vamos seguir adiante%n", nome);
+                System.out.println("Informe a sua nota parcial de " + materiaDois);
+                System.out.print("Nota parcial: ");
+                try {
+                    // Ele converte oque for escrito para um Double, primeira vez utilizando tal método por isso julgo este comentário como essencial
+                    parcialDois = validarDouble(Double.parseDouble(sc.nextLine()));
                 } catch (Exception exception) {
                     throw new RuntimeException("Erro na leitura da nota parcial: " + exception.getMessage());
                 }
-                // Adicionar mais métodos
-                System.out.println("Nossa.. que incrivel! Realmente você foi fantástico esse ano.Pois bem vamos seguir adiante em nosso bate-papo");
-                break;
-            } else if (sOuN.equalsIgnoreCase("não")) {
-                System.out.println("Poxa que pena que você não foi muito bem esse ano, mas ei não se desanime ok? Proximo ano você pode tentar novamente");
-                System.out.println("Porém você reconhecer isso é uma ótima atitude, meus sinceros parabéns!");
-                System.out.println("Agora por favor, me liste duas de suas más ações");
-                System.out.print("Ação UM: ");
-                String acaoUM = sc.nextLine();
-                System.out.print("Ação DOIS: ");
-                String acaoDOIS = sc.nextLine();
-
-            } else {
-                System.out.print("Tente novamente (Sim ou Não): ");
+                System.out.println("Informe a sua nota global de " + materiaDois);
+                System.out.print("Nota global: ");
+                sc.nextLine();
+                try {
+                    globalDois = validarDouble(Double.parseDouble(sc.nextLine()));
+                } catch (Exception exception) {
+                    throw new RuntimeException("Erro na leitura da nota parcial: " + exception.getMessage());
+                }finally {
+                    System.out.println("Fim do pedido de nota DOIS...");
+                }
+                Materias materiasDois = new Materias(materiaDois, etapaDois, parcialDois, globalDois);
+                listMaterias.add(materiasDois);
             }
-        } while (!sOuN.equalsIgnoreCase("sim") && !sOuN.equalsIgnoreCase("não"));
+        } catch (InputMismatchException e) {
+            System.out.println("Erro no reconhecimento da escrita ! " + e.getMessage());
+            e.getStackTrace();
+        }
     }
 
 
