@@ -64,6 +64,10 @@ public class Materias {
         return mediaFinal;
     }
 
+    public void printarMedia(Materias materias){
+
+    }
+
     public void repondoNota(Materias materias) {
         if (status.equals("RECUPERACAO")) {
             if ((materias.getParcial() + materias.getGlobal()) / 2 < 7) {
